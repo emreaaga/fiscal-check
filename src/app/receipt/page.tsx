@@ -1,13 +1,11 @@
-"use client"
+type Props = {
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
-import { useSearchParams } from "next/navigation"
-
-export default function ReceiptPage() {
-    const params = useSearchParams()
-
-    const status = params.get("status")
-    const date = params.get("date")
-    const id = params.get("id")
+export default function ReceiptPage({searchParams} : Props) {
+    const status = searchParams.status
+    const date = searchParams.date
+    const id = searchParams.id
 
     if (!status || !date || !id) {
         return <div className="p-10 text-red-500">Нет данных для чека</div>
