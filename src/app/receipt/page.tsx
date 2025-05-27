@@ -1,6 +1,12 @@
-// app/receipt/page.tsx (серверный)
-import ReceiptClient from "./ReceiptClient"
+import dynamic from "next/dynamic"
+import { Suspense } from "react"
 
-export default function ReceiptPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
-  return <ReceiptClient searchParams={searchParams} />
+const ReceiptClient = dynamic(() => import("./ReceiptClient"), { ssr: false })
+
+export default function ReceiptPage() {
+  return (
+    <Suspense fallback={<div>Загрузка...</div>}>
+      <ReceiptClient />
+    </Suspense>
+  )
 }
