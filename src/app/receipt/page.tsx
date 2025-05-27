@@ -1,3 +1,5 @@
+"use client"
+
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
