@@ -13,9 +13,18 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
+type Status = "Аванс" | "Оплачен" | "Возврат" | "Кредит"
+
+
 export default function Home() {
   const router = useRouter()
   const [status, setStatus] = useState<string | null>(null)
+  const wordsMap: Record<Status, string> = {
+    "Аванс": "Avans",
+    "Оплачен": "Sotuv",
+    "Возврат": "Qaytarish",
+    "Кредит": "Kredit",
+  }
 
   const handleGenerate = () => {
     if (!status) return alert("Выберите статус перед генерацией чека")
@@ -23,7 +32,16 @@ export default function Home() {
     const date = new Date().toLocaleString()
     const id = Math.random().toString(36).slice(2, 10).toUpperCase()
 
-    router.push(`/receipt?status=${status}&date=${encodeURIComponent(date)}&id=${id}`)
+    const noqr = status === "Кредит" || status === "Аванс" ? "true" : "false"
+    const bgColor = (status === "Кредит" || status === "Аванс") ? "#FDE9E6" : "#FFF3CD"
+    const textColor = (status === "Кредит" || status === "Аванс") ? "#E9573F" : "#856405"
+
+    // Вытаскиваем слово для текущего статуса
+    const word = wordsMap[status as Status]
+
+    const baseUrl = `/receipt?status=${status}&date=${encodeURIComponent(date)}&id=${id}&noqr=${noqr}&bgColor=${encodeURIComponent(bgColor)}&textColor=${encodeURIComponent(textColor)}&word=${word}`
+
+    router.push(baseUrl)
   }
 
   return (
@@ -38,7 +56,7 @@ export default function Home() {
               <SelectLabel>Статус</SelectLabel>
               <SelectItem value="Оплачен">Оплачен</SelectItem>
               <SelectItem value="Возврат">Возврат</SelectItem>
-              <SelectItem value="Отмена">Аванс</SelectItem>
+              <SelectItem value="Аванс">Аванс</SelectItem>
               <SelectItem value="Кредит">Кредит</SelectItem>
             </SelectGroup>
           </SelectContent>

@@ -7,6 +7,11 @@ export default function ReceiptPage() {
     const status = params.get("status")
     const date = params.get("date")
     const id = params.get("id")
+    const noqr = params.get("noqr") === "true"
+    const bgColor = params.get("bgColor") || "#FFF3CD"
+    const textColor = params.get("textColor") || "#856405"
+    const word = params.get('word')
+
 
     if (!status || !date || !id) {
         return <div className="p-10 text-red-500">Нет данных для чека</div>
@@ -14,7 +19,7 @@ export default function ReceiptPage() {
 
     return (
         <div className="w-full max-w-2xl h-auto min-h-screen mx-auto bg-white rounded-2xl shadow-md p-4 sm:p-6 md:p-8 text-sm border text-[#374151]">
-            <h1 className="text-center font-semibold color=[#374151]">Savdo cheki/Sotuv</h1>
+            <h1 className="text-center font-semibold color=[#374151]">Savdo cheki/{word}</h1>
             <div className="text-center text-xs mb-2">- 0</div>
 
             <div className="mb-2 text-[#505050]">
@@ -108,12 +113,22 @@ export default function ReceiptPage() {
                 <div className="text-right">359209816245</div>
             </div>
 
-            <div className="flex justify-center my-2">
-                <img src="/qr_placeholder.png" alt="QR" className="w-32 h-32" />
-            </div>
+            {!noqr && (status === "Оплачен" || status === "Возврат") && (
+                <div className="flex justify-center my-2">
+                    <img src="/qr_placeholder.png" alt="QR" className="w-32 h-32" />
+                </div>
+            )}
 
-            <div className="bg-[#FFF3CD] text-[#856405] text-center text-xs p-2 rounded-l">
-                Ro'yxatdan chiqarilgan, nofaol onlayn-NKM cheki
+            <div
+                className="text-center text-xs p-2 rounded-l"
+                style={{
+                    backgroundColor: bgColor,
+                    color: textColor,
+                }}
+            >
+                {status === "Кредит" || status === "Аванс"
+                    ? "To‘lovning bo‘nak, bo‘lib to‘lash, kredit turlari bo‘yicha shakllantirilgan cheklarda QR-kod va fiskal belgi mavjud bo‘lmaydi va xarid summasining 1 foizi (cashback) xaridorga qaytarilmaydi."
+                    : "Ro'yxatdan chiqarilgan, nofaol onlayn-NKM cheki"}
             </div>
         </div>
 
