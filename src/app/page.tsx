@@ -20,10 +20,10 @@ export default function Home() {
   const router = useRouter()
   const [status, setStatus] = useState<string | null>(null)
   const wordsMap: Record<Status, string> = {
-    "Аванс": "Avans",
-    "Оплачен": "Sotuv",
-    "Возврат": "Qaytarish",
-    "Кредит": "Kredit",
+    "Аванс": "Bo‘nak (Avans) chek",
+    "Оплачен": "Savdo cheki/Sotuv",
+    "Возврат": "Savdo cheki/Qaytarish",
+    "Кредит": "Kredit cheki",
   }
 
   const handleGenerate = () => {
@@ -35,8 +35,6 @@ export default function Home() {
     const noqr = status === "Кредит" || status === "Аванс" ? "true" : "false"
     const bgColor = (status === "Кредит" || status === "Аванс") ? "#FDE9E6" : "#FFF3CD"
     const textColor = (status === "Кредит" || status === "Аванс") ? "#E9573F" : "#856405"
-
-    // Вытаскиваем слово для текущего статуса
     const word = wordsMap[status as Status]
 
     const baseUrl = `/receipt?status=${status}&date=${encodeURIComponent(date)}&id=${id}&noqr=${noqr}&bgColor=${encodeURIComponent(bgColor)}&textColor=${encodeURIComponent(textColor)}&word=${word}`

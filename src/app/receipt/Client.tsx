@@ -12,6 +12,12 @@ export default function ReceiptPage() {
     const textColor = params.get("textColor") || "#856405"
     const word = params.get('word')
 
+    const getTextColor = (status: string) => {
+        if (status === "Кредит") return "#E9B306"     
+        if (status === "Аванс") return "#E9573F"      
+        return "#374151"                             
+    }
+
 
     if (!status || !date || !id) {
         return <div className="p-10 text-red-500">Нет данных для чека</div>
@@ -19,8 +25,13 @@ export default function ReceiptPage() {
 
     return (
         <div className="w-full max-w-2xl h-auto min-h-screen mx-auto bg-white rounded-2xl shadow-md p-4 sm:p-6 md:p-8 text-sm border text-[#374151]">
-            <h1 className="text-center font-semibold color=[#374151]">Savdo cheki/{word}</h1>
-            <div className="text-center text-xs mb-2">- 0</div>
+            <h1
+                className="text-center text-lg"
+                style={{ color: getTextColor(status) }}
+            >
+                {word}
+            </h1>
+            <div className="text-center text-lg color=[#374151] mb-2">- 0</div>
 
             <div className="mb-2 text-[#505050]">
                 <p>EZ000000000703</p>
@@ -120,7 +131,7 @@ export default function ReceiptPage() {
             )}
 
             <div
-                className="text-center text-xs p-2 rounded-l"
+                className="text-center text-md p-2 rounded-l"
                 style={{
                     backgroundColor: bgColor,
                     color: textColor,
