@@ -1,17 +1,16 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
+interface ReceiptClientProps {
+  status?: string | null;
+  date?: string | null;
+  id?: string | null;
+}
 
-export default function ReceiptClient() {
-  const searchParams = useSearchParams()
-  const status = searchParams.get("status")
-  const date = searchParams.get("date")
-  const id = searchParams.get("id")
-
+export default function ReceiptClient({status, date, id}: ReceiptClientProps) {
   if (!status || !date || !id) {
     return <div className="p-10 text-red-500">Нет данных для чека</div>
   }
-
+  
   return (
     <div className="w-full max-w-2xl h-auto min-h-screen mx-auto bg-white rounded-2xl shadow-md p-4 sm:p-6 md:p-8 text-sm border text-[#374151]">
             <h1 className="text-center font-semibold color=[#374151]">Savdo cheki/Sotuv</h1>

@@ -1,13 +1,10 @@
-import dynamic from "next/dynamic"
 import { Suspense } from "react"
+import ReceiptClient from "./ReceiptClient"
 
-// Загружаем компонент только на клиенте (SSR отключен)
-const ReceiptClient = dynamic(() => import("./ReceiptClient"), { ssr: false })
-
-export default function ReceiptPage() {
+export default function ReceiptPage({ searchParams }: { searchParams: { status?: string; date?: string; id?: string } }) {
   return (
     <Suspense fallback={<div>Загрузка чека...</div>}>
-      <ReceiptClient />
+      <ReceiptClient status={searchParams.status} date={searchParams.date} id={searchParams.id} />
     </Suspense>
   )
 }
